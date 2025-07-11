@@ -12,16 +12,13 @@ const Url = require('./models/url.model');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middlewares
 app.use(cors());
 app.use(express.json());
 app.use(limiter);
 
-// Routes
 app.use('/auth', authRoutes);
 app.use('/api', urlRoutes);
 
-// Short URL redirection route
 app.get('/r/:shortCode', async (req, res) => {
   try {
     const { shortCode } = req.params;
@@ -37,12 +34,9 @@ app.get('/r/:shortCode', async (req, res) => {
   }
 });
 
-// Home route
 app.get('/', (req, res) => {
   res.send('Server is running');
 });
-
-// Connect to MongoDB and start the server
 mongoose
   .connect(process.env.MONGODB_URI)
   .then(() => {
